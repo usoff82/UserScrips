@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://www.tampermonkey.net/index.php?version=4.11.6117&ext=fire&updated=true
+// @match        *://*.ebay.com/*
 // @grant        none
 // ==/UserScript==
 
