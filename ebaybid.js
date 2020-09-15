@@ -39,6 +39,19 @@ window.addEventListener('load', function () {
     return timeLeft;
   }
 
+  /* Timer function */
+  function checkTime() {
+    const timeLeftNum = getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText);
+    const MyBidTime = document.getElementById("MyBidTime").value || timeLeftNum;
+    //console.log('checkTime: ' + (timeLeftNum - MyBidTime));
+    if (MyBidTime < timeLeftNum) {
+      return rafAsync().then(() => checkTime());
+    } else {
+      console.log('checkTime: ' + document.getElementById("vi-cdown_timeLeft").innerText);
+      return Promise.resolve(true);
+    }
+  }
+
   /* Place Bid button */
   function MyBid() {
     const MaxBidId = document.getElementById("MaxBidId");
@@ -58,19 +71,6 @@ window.addEventListener('load', function () {
     if (MinBidSum <= MaxBidId.value) {
       console.log('MyBid: ' + document.getElementById("vi-cdown_timeLeft").innerText);
       bidBtn.click();
-    }
-  }
-
-  /* Timer function */
-  function checkTime() {
-    const timeLeftNum = getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText);
-    const MyBidTime = document.getElementById("MyBidTime").value || timeLeftNum;
-    //console.log('checkTime: ' + (timeLeftNum - MyBidTime));
-    if (MyBidTime < timeLeftNum) {
-      return rafAsync().then(() => checkTime());
-    } else {
-      console.log('checkTime: ' + document.getElementById("vi-cdown_timeLeft").innerText);
-      return Promise.resolve(true);
     }
   }
 
@@ -120,5 +120,5 @@ window.addEventListener('load', function () {
 //PutBid(sum=160, prc=3, time=getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText) - 5);
 
 var div = document.createElement('div');
-div.innerHTML = '<div class="timeLeft"><input id="MyBidTime" class="notranslate MaxBidClass" type="text" autocomplete="off" size="5" maxlength="10" name="timebid" value="" aria-label="Time Bid"></div><div class="bidAmt">Bid Time, s</div><button id="MyBidBtn">Bid</button> ';
+div.innerHTML = '<div class="timeLeft" style="margin-top: 14px;"><input id="MyBidTime" class="notranslate MaxBidClass" type="text" autocomplete="off" size="5" maxlength="10" name="timebid" value="" aria-label="Time Bid"></div><div class="bidAmt">Bid time, sec.</div><button id="MyBidBtn" style="margin-top: 14px;">Put Delayed Bid</button> ';
 document.querySelector('div.vi-price').appendChild(div);
