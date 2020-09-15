@@ -10,13 +10,14 @@
 
 
 window.addEventListener('load', function () {
-
+  /* Async function */
   function rafAsync() {
     return new Promise(resolve => {
       requestAnimationFrame(resolve); //faster than set time out
     });
   }
 
+  /* Check element is exits*/
   function checkElement(selector) {
     if (document.querySelector(selector) === null) {
       return rafAsync().then(() => checkElement(selector));
@@ -25,6 +26,7 @@ window.addEventListener('load', function () {
     }
   }
 
+  /* Convert time string to seconds*/
   function getTimeLeft(timeLeftStr) {
     let timeLeft = null;
     if (timeLeftStr.match(/(\d{1,2})\sday/) != null) {
@@ -37,6 +39,7 @@ window.addEventListener('load', function () {
     return timeLeft;
   }
 
+  /* Place Bid button */
   function MyBid() {
     const MaxBidId = document.getElementById("MaxBidId");
     const bidBtn = document.getElementById("bidBtn_btn");
@@ -53,19 +56,20 @@ window.addEventListener('load', function () {
     const MyBidTime = document.getElementById("MyBidTime");
     console.log('MyBid: ' + MinBidSum + ' <= ' + MaxBidId.value);
     if (MinBidSum <= MaxBidId.value) {
+      console.log('MyBid: ' + document.getElementById("vi-cdown_timeLeft").innerText);
       bidBtn.click();
     }
   }
 
-
+  /* Timer function */
   function checkTime() {
-    let timeLeftNum = getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText);
-    const MyBidTime = document.getElementById("MyBidTime").value;
+    const timeLeftNum = getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText);
+    const MyBidTime = document.getElementById("MyBidTime").value || timeLeftNum;
     //console.log('checkTime: ' + (timeLeftNum - MyBidTime));
     if (MyBidTime < timeLeftNum) {
       return rafAsync().then(() => checkTime());
     } else {
-      console.log('Done! ' + document.getElementById("vi-cdown_timeLeft").innerText);
+      console.log('checkTime: ' + document.getElementById("vi-cdown_timeLeft").innerText);
       return Promise.resolve(true);
     }
   }
@@ -80,12 +84,12 @@ window.addEventListener('load', function () {
       });
   }
 
-  function OnConfirm() {
+  function OnBidBtn() {
     console.log("bidBtn");
     checkElement('#confirm_button') //use whichever selector you want
       .then((element) => {
         const confirmBtn = document.getElementById("confirm_button");
-        console.info(confirmBtn.innerText);
+        console.info('Confirm: ' + document.getElementById("vi-cdown_timeLeft").innerText);
         //confirmBtn.click();
       });
   }
@@ -94,9 +98,13 @@ window.addEventListener('load', function () {
     document.getElementById("MaxBidId").value = Number(document.getElementById("MaxBidId").attributes.getNamedItem("aria-label").value.match(/\$([0-9]+[\.,0-9]*)/)[1]);
   }
 
+  function OnMyBidTime() {
+    document.getElementById("MyBidTime").value = getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText) - 5;
+  }
+
   checkElement('#bidBtn_btn') //use whichever selector you want
     .then((element) => {
-      document.getElementById("bidBtn_btn").addEventListener("click", OnConfirm);
+      document.getElementById("bidBtn_btn").addEventListener("click", OnBidBtn);
     });
   checkElement('#MyBidBtn') //use whichever selector you want
     .then((element) => {
@@ -106,10 +114,8 @@ window.addEventListener('load', function () {
     .then((element) => {
       document.getElementById("MaxBidId").addEventListener("dblclick", OnMaxBidId);
     });
-
+  document.getElementById("MyBidTime").addEventListener("dblclick", OnMyBidTime);
 });
-
-console.info('@@@@');
 
 //PutBid(sum=160, prc=3, time=getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText) - 5);
 
