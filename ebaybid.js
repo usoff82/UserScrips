@@ -6,6 +6,7 @@
 // @author       You
 // @match        *://*.ebay.com/*
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/usoff82/UserScrips/master/ebaybid.js
 // ==/UserScript==
 var BidTimestamp;
 
