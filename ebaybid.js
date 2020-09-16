@@ -50,7 +50,7 @@ window.addEventListener('load', function () {
     if (MyBidTime < timeLeftNum) {
       return rafAsync().then(() => checkTime());
     } else {
-      console.log('checkTime: ' + document.getElementById("vi-cdown_timeLeft").innerText);
+      console.log('checkTime: ' + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now());
       return Promise.resolve(true);
     }
   }
@@ -74,11 +74,11 @@ window.addEventListener('load', function () {
       const MyBidTime = document.getElementById("MyBidTime");
       console.log('MyBid: ' + MinBidSum + ' <= ' + MaxBidId.value);
       if (MinBidSum <= MaxBidId.value) {
-        console.log('MyBid: ' + document.getElementById("vi-cdown_timeLeft").innerText);
+        console.log('MyBid: ' + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now());
         bidBtn.click();
       }
     }
-    console.log('PutDelayedBid: ' + document.getElementById("vi-cdown_timeLeft").innerText);
+    console.log('PutDelayedBid: ' + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now());
     document.getElementById("MyBidBtn").disabled = true;
     return checkTime()
       .then(() => {
@@ -95,11 +95,11 @@ window.addEventListener('load', function () {
 
   /* Place bid button */
   function OnBidBtn() {
-    console.log("OnBidBtn: " + document.getElementById("vi-cdown_timeLeft").innerText);
+    console.log("OnBidBtn: " + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now());
     checkElement('#confirm_button')
       .then((element) => {
         const confirmBtn = document.getElementById("confirm_button");
-        console.info('Confirm: ' + document.getElementById("vi-cdown_timeLeft").innerText);
+        console.log('Confirm: ' + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now());
         //confirmBtn.click();
       });
   }
