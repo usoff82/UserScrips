@@ -7,7 +7,7 @@
 // @match        *://*.ebay.com/*
 // @grant        none
 // ==/UserScript==
-
+var BidTimestamp;
 
 window.addEventListener('load', function () {
   /* Async function */
@@ -50,6 +50,7 @@ window.addEventListener('load', function () {
     if (MyBidTime < timeLeftNum) {
       return rafAsync().then(() => checkTime());
     } else {
+      BidTimestamp = Date.now();
       console.log('checkTime: ' + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now());
       return Promise.resolve(true);
     }
@@ -99,7 +100,7 @@ window.addEventListener('load', function () {
     checkElement('#confirm_button')
       .then((element) => {
         const confirmBtn = document.getElementById("confirm_button");
-        console.log('Confirm: ' + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now());
+        console.log('Confirm: ' + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now() + ', ' + (Date.now() - BidTimestamp) + ' ms.');
         //confirmBtn.click();
       });
   }
