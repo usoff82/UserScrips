@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         My Bid
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  try to take over the world!
 // @author       You
 // @match        *://*.ebay.com/*
@@ -32,12 +32,18 @@ window.addEventListener('load', function () {
   /* Convert time string to seconds*/
   function getTimeLeft(timeLeftStr) {
     let timeLeft = null;
-    if (timeLeftStr.match(/(\d{1,2})\sday/) != null) {
-      timeLeft = timeLeftStr.match(/(\d{1,2})\sday/)[1] * 24 * 60 * 60 + timeLeftStr.match(/(\d{1,2})\shour/)[1] * 60 * 60;
-    } else if (timeLeftStr.match(/(\d{1,2})d/) != null) {
-      timeLeft = timeLeftStr.match(/(\d{1,2})d/)[1] * 24 * 60 * 60 + timeLeftStr.match(/(\d{1,2})h/)[1] * 60 * 60;
-    } else if (timeLeftStr.match(/(\d{1,2})h/) != null) {
-      timeLeft = timeLeftStr.match(/(\d{1,2})h/)[1] * 60 * 60 + timeLeftStr.match(/(\d{1,2})m/)[1] * 60 + timeLeftStr.match(/(\d{1,2})s/)[1] * 1;
+    const DaysFmt = timeLeftStr.match(/(\d{1,2})\s?d.*\s(\d{1,2})\s?h.*/);
+    const HoursFmt = timeLeftStr.match(/(\d{1,2})h\s(\d{1,2})m\s(\d{1,2})s/);
+    const MinsFmt = timeLeftStr.match(/(\d{1,2})m\s(\d{1,2})s/);
+    const SecsFmt = timeLeftStr.match(/(\d{1,2})s/);
+    if (DaysFmt != null) {
+      timeLeft = DaysFmt[1] * 24 * 60 * 60 + DaysFmt[2] * 60 * 60;
+    } else if (HoursFmt != null) {
+      timeLeft = HoursFmt[1] * 60 * 60 + HoursFmt[2] * 60 + HoursFmt[3] * 1;
+    } else if (MinsFmt != null) {
+      timeLeft = MinsFmt[1] * 60 + MinsFmt[2] * 1;
+    } else if (SecsFmt != null) {
+      timeLeft = SecsFmt[1] * 1;
     }
     return timeLeft;
   }
@@ -114,7 +120,8 @@ window.addEventListener('load', function () {
 
   /* Fill minimal bid on double click */
   function OnMaxBidId() {
-    document.getElementById("MaxBidId").value = Number(document.getElementById("MaxBidId").attributes.getNamedItem("aria-label").value.match(/\$([0-9]+[\.,0-9]*)/)[1]);
+    //document.getElementById("MaxBidId").value = Number(document.getElementById("MaxBidId").attributes.getNamedItem("aria-label").value.match(/\$([0-9]+[\.,0-9]*)/)[1]);
+    document.getElementById("MaxBidId").value = Number(document.getElementById("w1-19-_mtb").innerText.match(/\$([0-9]+[\.,0-9]*)/)[1]);
   }
   /* Add event on max bid input field */
   checkElement('#MaxBidId')
