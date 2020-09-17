@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         My Bid
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  try to take over the world!
 // @author       You
 // @match        *://*.ebay.com/*
