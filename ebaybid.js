@@ -108,6 +108,11 @@ window.addEventListener('load', function () {
       .then((element) => {
         const confirmBtn = document.getElementById("confirm_button");
         console.log('Confirm: ' + document.getElementById("vi-cdown_timeLeft").innerText + ' / ' + Date.now() + ', ' + (Date.now() - BidTimestamp) + ' ms.');
+
+        checkElement('span.ui-component-icon__CONFIRMATION')
+            .then((element) => {
+              console.log('Confirm: Suscessful at ' + (Date.now() - BidTimestamp) + ' ms.');
+        });
         //confirmBtn.click();
       });
   }
@@ -131,16 +136,14 @@ window.addEventListener('load', function () {
       const div = document.createElement('div');
       div.innerHTML = '<div class="timeLeft" style="margin-top: 14px;"><input id="MyBidTime" class="notranslate MaxBidClass" type="text" autocomplete="off" size="5" maxlength="10" name="timebid" value="" aria-label="Time Bid"></div><div class="bidAmt">Bid time, sec.</div><button id="MyBidBtn" style="margin-top: 14px;">Put Delayed Bid</button> ';
       document.querySelector('div.vi-price').appendChild(div);
-    });
-
-
-  /* Fill time on double click */
-  function OnMyBidTime() {
-    document.getElementById("MyBidTime").value = getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText) - 5;
-  }
-  /* Add event on bid time input field */
-  checkElement('#MyBidTime')
-    .then((element) => {
-      document.getElementById("MyBidTime").addEventListener("dblclick", OnMyBidTime);
+      /* Fill time on double click */
+      function OnMyBidTime() {
+          document.getElementById("MyBidTime").value = getTimeLeft(document.getElementById("vi-cdown_timeLeft").innerText) - 5;
+      }
+      /* Add event on bid time input field */
+      checkElement('#MyBidTime')
+          .then((element) => {
+          document.getElementById("MyBidTime").addEventListener("dblclick", OnMyBidTime);
+      });
     });
 });
