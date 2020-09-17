@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         My Bid
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       You
 // @match        *://*.ebay.com/*
@@ -127,6 +127,10 @@ window.addEventListener('load', function () {
   checkElement('#MaxBidId')
     .then((element) => {
       document.getElementById("MaxBidId").addEventListener("dblclick", OnMaxBidId);
+      /* Add controls */
+      const div = document.createElement('div');
+      div.innerHTML = '<div class="timeLeft" style="margin-top: 14px;"><input id="MyBidTime" class="notranslate MaxBidClass" type="text" autocomplete="off" size="5" maxlength="10" name="timebid" value="" aria-label="Time Bid"></div><div class="bidAmt">Bid time, sec.</div><button id="MyBidBtn" style="margin-top: 14px;">Put Delayed Bid</button> ';
+      document.querySelector('div.vi-price').appendChild(div);
     });
 
 
@@ -140,9 +144,3 @@ window.addEventListener('load', function () {
       document.getElementById("MyBidTime").addEventListener("dblclick", OnMyBidTime);
     });
 });
-
-
-/* Add controls */
-var div = document.createElement('div');
-div.innerHTML = '<div class="timeLeft" style="margin-top: 14px;"><input id="MyBidTime" class="notranslate MaxBidClass" type="text" autocomplete="off" size="5" maxlength="10" name="timebid" value="" aria-label="Time Bid"></div><div class="bidAmt">Bid time, sec.</div><button id="MyBidBtn" style="margin-top: 14px;">Put Delayed Bid</button> ';
-document.querySelector('div.vi-price').appendChild(div);
